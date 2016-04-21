@@ -8,6 +8,9 @@ class Question < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
 
+  has_many :likes, dependent: :destroy
+  has_many :users, through: :likes
+
   # validates_presence_of :title # deprecated
   # validates :title, :body, presence: true
   validates(:title, {presence: true, uniqueness: {message: "must be unique!"}})
@@ -46,6 +49,10 @@ class Question < ActiveRecord::Base
 
   def user_full_name
     user ? user.full_name : ""
+  end
+
+  def like_for(user)
+    likes.find_by_user_id user if user
   end
 
   private

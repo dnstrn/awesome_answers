@@ -10,6 +10,11 @@ class User < ActiveRecord::Base
   has_many :questions, dependent: :nullify
   has_many :answers,   dependent: :nullify
 
+  has_many :likes, dependent: :destroy
+  # We're using 'source' option in here because we used 'liked_questions' instead of 'questions' (convention) because we used 'has_many :questions' earlier.
+  # Inside the 'like' model there is no association called 'liked_question' so we have to specify the source for Rails to know how to match it.
+  has_many :liked_questions, through: :likes, source: :question
+
   # attr_accessor :abc
 
   validates :first_name, presence: true

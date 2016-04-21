@@ -24,6 +24,15 @@ class Ability
       (a.question.user == user || a.user == user) && user.persisted?
     end
 
+    can :like, Question do |q|
+      # user can't like their own questions
+      q.user != user
+    end
+
+    can :destroy, Like do |l|
+      l.user == user
+    end
+
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

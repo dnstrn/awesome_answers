@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   end
 
   resources :questions do
+    get :lock, on: :member
+    # get :lock, on: :member
     # get :search, on: :collection
     # get :search, on: :member
     # get :search
@@ -31,6 +33,8 @@ Rails.application.routes.draw do
     # this way when, for instance, we want to create an answer we know the question that it references
     # all the helpers will be the same as before prefixed with 'question_'
     resources :answers, only: [:create, :destroy]
+    
+    resources :likes, only: [:create, :destroy]
   end
   # Standard 7 Rails Actions:
   # get    "/questions/new"      => "questions#new"   , as: :new_question
