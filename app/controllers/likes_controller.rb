@@ -4,7 +4,6 @@ class LikesController < ApplicationController
   before_action :authorize_destroy, only: :destroy
 
   def create
-    question      = Question.find params[:question_id]
     like          = Like.new
     like.user     = current_user
     like.question = question
@@ -24,11 +23,11 @@ class LikesController < ApplicationController
   private
 
   def authorize_create
-    redirect_to question, unless can? :like, question
+    redirect_to question unless can? :like, question
   end
 
   def authorize_destroy
-    redirect_to question, unless can? :destroy, like
+    redirect_to question unless can? :destroy, like
   end
 
   def question

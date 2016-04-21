@@ -18,6 +18,7 @@
   <%= link_to "Un-Like", question_like_path(@question, like), method: :delete %>
 <% else %>
 <%= link_to "Like", question_likes_path(@question), method: :post %>
+<% end %>
 
 (<%= @question.likes.count %>)
 
