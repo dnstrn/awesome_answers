@@ -9,6 +9,9 @@ class QuestionsController < ApplicationController
   before_action :find_question, only: [:edit, :update, :destroy, :show]
   before_action :authorize_question, only: [:edit, :update, :destroy]
 
+  # include QuestionsAnswersHelper
+  # helper_method :user_like
+
   def new
     # We need to define a new 'Question' object in order to properly generate a form in Rails
     # Question is the ActiveRecord model
@@ -78,21 +81,22 @@ class QuestionsController < ApplicationController
 
   private
 
-  def find_question
-    @question = Question.find params[:id]
-  end
-
   def authorize_question
     redirect_to root_path unless can? :manage, @question
   end
 
-  def question_params
-    params.require(:question).permit([:title, :body, :category_id])
+  def find_question
+    @question = Question.find params[:id]
   end
 
-  def user_like
-    @user_like ||= @question.like_for(current_user)
+  def question_params
+    params.require(:question).permit([:title, :body, :category_id,
+                                      {tag_ids: []}])
   end
-  helper_method :user_like
+
+  # def user_like
+  #   @user_like ||= @question.like_for(current_user)
+  # end
+  # helper_method :user_like
 
 end

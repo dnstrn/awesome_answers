@@ -3,15 +3,19 @@ class AnswersController < ApplicationController
   before_action :find_question
   before_action :find_and_authorize_answer, only: :destroy
 
+  # include QuestionsAnswersHelper
+  # helper_method :user_like
+
   def create
     answer_params     = params.require(:answer).permit(:body)
     @answer           = Answer.new answer_params
     @answer.question  = @question
     @answer.user      = current_user
     if @answer.save
+      AnswersMailer.notify_question_owner(Answer.last).deliver_now
       redirect_to question_path(@question), notice: "Thanks for answering"
     else
-      flash[:alert] = "not saved"
+      flash[:alert] = "Not saved!"
       # this will render the show.html.erb inside views/questions
       render "/questions/show"
     end
