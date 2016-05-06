@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+
+resources :password_resets, only: [:new, :create, :edit, :update]
+
   # This defines a route so that when we receive a GET request with url: /home
   # Rails will invoke the WelcomeController with `index` action
   # get({"/home" => "welcome#index"})
@@ -23,7 +27,6 @@ Rails.application.routes.draw do
   end
 
   resources :questions do
-    get :lock, on: :member
     # get :lock, on: :member
     # get :search, on: :collection
     # get :search, on: :member
@@ -32,7 +35,7 @@ Rails.application.routes.draw do
     # the answers routes will be the standard ones prefixed: /questions/:question_id
     # this way when, for instance, we want to create an answer we know the question that it references
     # all the helpers will be the same as before prefixed with 'question_'
-    resources :answers, only: [:create, :destroy]
+    resources :answers, only: [:create, :destroy, :edit, :update]
 
     resources :likes, only: [:create, :destroy]
 

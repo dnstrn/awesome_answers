@@ -11,20 +11,38 @@ class AnswersController < ApplicationController
     @answer           = Answer.new answer_params
     @answer.question  = @question
     @answer.user      = current_user
+    respond_to do |format|
     if @answer.save
-      AnswersMailer.notify_question_owner(Answer.last).deliver_now
-      redirect_to question_path(@question), notice: "Thanks for answering"
+      AnswersMailer.notify_question_owner(@answer).deliver_later
+      format.html { redirect_to question_path(@question), notice: "Thanks for answering" }
+      format.js { render :create_success }
     else
       flash[:alert] = "Not saved!"
       # this will render the show.html.erb inside views/questions
-      render "/questions/show"
+      format.html { render "/questions/show" }
+      format.js { render :create_failure }
     end
   end
+end
 
   def destroy
     # redirect_to root_path unless can? :destroy, answer
     @answer.destroy
-    redirect_to question_path(@question), notice: "Answer deleted!"
+    respond_to do |format|
+      format.html { redirect_to question_path(@question), notice: "Answer deleted!" }
+      format.js { render }
+    end
+  end
+
+  def edit
+    @answer = Answer.find params[:id]
+  end
+
+  if @answer.update answer_params
+      redirect_to question_path(@question), notice: "Answer updated!"
+    else
+      render :edit
+    end
   end
 
   private
