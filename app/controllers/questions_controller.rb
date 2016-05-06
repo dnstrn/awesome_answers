@@ -74,6 +74,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    @question.slug = nil
     if @question.update question_params
       # flash messages can be set either directly using: flash[:notice] = ".."
       # you can also pass a ':notice' or ':alert' options to the 'redirect_to' method
@@ -91,11 +92,11 @@ class QuestionsController < ApplicationController
   private
 
   def authorize_question
-    redirect_to root_path unless can? :manage, @question
+    redirect_to root_path unless can? :crud, @question
   end
 
   def find_question
-    @question = Question.find params[:id]
+    @question = Question.friendly.find params[:id]
   end
 
   def question_params

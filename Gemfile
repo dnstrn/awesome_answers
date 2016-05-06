@@ -9,6 +9,8 @@ gem 'pg', '~> 0.15'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 gem 'bootstrap-sass', '~> 3.3.6'
+
+gem 'friendly_id'
 # Use Uglifier as compressor for JavaScript assets
 # This tells Bundler that we need Uglifier gem with version 1.3.0 or higher
 gem 'uglifier', '>= 1.3.0'

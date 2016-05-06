@@ -43,6 +43,9 @@ class Question < ActiveRecord::Base
 
   before_validation :titleize_title
 
+  extend FriendlyId
+  friendly_id :title, use: :history
+
   # scope :recent_three, lambda { order("created_at DESC").limit(3) }2
   def self.recent_three
     order("created_at DESC").limit(3)
@@ -69,6 +72,10 @@ class Question < ActiveRecord::Base
   def vote_value
     votes.up_count - votes.down_count
   end
+
+  # def to_param
+  #   "#{id}-#{title}".parameterize
+  # end
 
   private
 
