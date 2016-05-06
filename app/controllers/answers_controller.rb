@@ -38,7 +38,8 @@ end
     @answer = Answer.find params[:id]
   end
 
-  if @answer.update answer_params
+  def update
+    if @answer.update answer_params
       redirect_to question_path(@question), notice: "Answer updated!"
     else
       render :edit

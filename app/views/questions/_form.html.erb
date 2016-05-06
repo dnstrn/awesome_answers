@@ -12,16 +12,14 @@
     then the generated form will have an action that submits to
      `question_path(@question)` wherer @question is the ActiveRecord object that
      you passed to the form. The action will be PATCH (using the _method wordaround) %>
-     
+
+    <!-- using 'simple_form': -->
      <%= simple_form_for @question do |f| %>
-     <%= f.input :title %>
-     <%= f.input :body %>
-     <%= f.association :category %>
-     <div>
-       <%= f.label :tag_ids, "Tags" %>
-       <%= f.collection_check_boxes :tag_ids, Tag.order(:name), :id, :name %>
-     </div>
-     <%= f.submit class: "btn btn-primary" %>
+       <%= f.input :title, input_html: {class: "abc"}, label_html: {class: "hey"} %>
+       <%= f.input :body %>
+       <%= f.association :category %>
+       <%= f.association :tags, input_html: {class: "chosen-select"} %>
+       <%= f.submit class: "btn btn-primary" %>
      <% end %>
 
 <!-- <%= simple_form_for @question do |f| %>
